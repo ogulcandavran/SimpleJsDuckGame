@@ -1,0 +1,28 @@
+.running_duck {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.running_duck img {
+  width: 100px;
+  height: 100px;
+  transform: scale(-1,1);
+}
+
+.duck_to_catch {
+  position: absolute;
+  top: 200px;
+}
+
+.duck_to_catch img {
+  height: 30px;
+  width: 30px;
+}
+
+.score{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
