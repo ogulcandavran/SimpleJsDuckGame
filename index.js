@@ -41,24 +41,33 @@ const updateScore = () => {
   score.innerText = Number(score.innerText) + 1;
 };
 
-const moveVertical = (element, key, length) => {
+const moveVertical = (element, key, moveLength) => {
   const imageHeight = element.offsetHeight;
-
   const currentTop = extractPosition(element.style.top);
+  const length =
+    window.outerHeight - currentTop - element.offsetHeight < moveLength
+      ? window.outerHeight - currentTop - element.offsetHeight
+      : moveLength;
+
   if (key === "ArrowDown" && currentTop < window.innerHeight - imageHeight) {
     element.style.top = `${currentTop + length}px`;
   }
 
   if (key === "ArrowUp" && currentTop >= 0) {
-    element.style.top = `${currentTop - length}px`;
+    element.style.top = `${currentTop - moveLength}px`;
   }
 };
 
-const moveHorizontal = (element, key, length) => {
+const moveHorizontal = (element, key, moveLength) => {
   const imageWidth = element.offsetWidth;
   const currentLeft = extractPosition(element.style.left);
+  const length =
+    window.outerWidth - currentLeft - element.offsetWidth < moveLength
+      ? window.outerWidth - currentLeft - element.offsetWidth
+      : moveLength;
+  console.log(window.outerWidth - currentLeft - element.offsetWidth);
   if (key === "ArrowLeft" && currentLeft >= 0) {
-    element.style.left = `${currentLeft - length}px`;
+    element.style.left = `${currentLeft - moveLength}px`;
     element.style.transform = "scale(-1,1)";
   }
 
