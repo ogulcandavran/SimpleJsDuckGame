@@ -3,10 +3,10 @@ const littleDuckSize = document.querySelector("#little_duck");
 const runningDuck = document.querySelector(".running_duck");
 const score = document.querySelector("#score");
 
-const setRandomLocation = (element, imgSize) => {
+const setRandomLocation = (element, moveLength) => {
   const randomLeft = Math.floor(Math.random() * window.innerWidth);
   const randomTop = Math.floor(Math.random() * window.innerHeight);
-  if ((randomLeft > imgSize) & (randomTop > imgSize)) {
+  if ((randomLeft > moveLength) & (randomTop > moveLength)) {
     element.style.top = `${randomTop - littleDuckSize.clientHeight}px`;
     element.style.left = `${randomLeft - littleDuckSize.clientWidth}px`;
   }
@@ -26,11 +26,10 @@ const isTouching = (a, b) => {
 
 window.addEventListener("keydown", function (e) {
   const moveLength = 30;
-  const imgSize = 120;
   if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
-    moveHorizontal(runningDuck, e.key, moveLength, imgSize);
+    moveHorizontal(runningDuck, e.key, moveLength);
   } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-    moveVertical(runningDuck, e.key, moveLength, imgSize);
+    moveVertical(runningDuck, e.key, moveLength);
   }
   if (isTouching(runningDuck, duckToCatch)) {
     setRandomLocation(duckToCatch, moveLength);
@@ -42,9 +41,11 @@ const updateScore = () => {
   score.innerText = Number(score.innerText) + 1;
 };
 
-const moveVertical = (element, key, length, imgSize) => {
+const moveVertical = (element, key, length) => {
+  const imageHeight = element.offsetHeight;
+
   const currentTop = extractPosition(element.style.top);
-  if (key === "ArrowDown" && currentTop < window.innerHeight - imgSize) {
+  if (key === "ArrowDown" && currentTop < window.innerHeight - imageHeight) {
     element.style.top = `${currentTop + length}px`;
   }
 
@@ -53,14 +54,15 @@ const moveVertical = (element, key, length, imgSize) => {
   }
 };
 
-const moveHorizontal = (element, key, length, imgSize) => {
+const moveHorizontal = (element, key, length) => {
+  const imageWidth = element.offsetWidth;
   const currentLeft = extractPosition(element.style.left);
   if (key === "ArrowLeft" && currentLeft >= 0) {
     element.style.left = `${currentLeft - length}px`;
     element.style.transform = "scale(-1,1)";
   }
 
-  if (key === "ArrowRight" && currentLeft < window.innerWidth - imgSize) {
+  if (key === "ArrowRight" && currentLeft < window.innerWidth - imageWidth) {
     element.style.left = `${currentLeft + length}px`;
     element.style.transform = "scale(1,1)";
   }
