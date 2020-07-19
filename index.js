@@ -27,14 +27,10 @@ const isTouching = (a, b) => {
 window.addEventListener("keydown", function (e) {
   const moveLength = 30;
   const imgSize = 120;
-  if (e.key === "ArrowRight") {
-    moveHorizontal(runningDuck, "right", moveLength, imgSize);
-  } else if (e.key === "ArrowLeft") {
-    moveHorizontal(runningDuck, "left", moveLength, imgSize);
-  } else if (e.key === "ArrowDown") {
-    moveVertical(runningDuck, "down", moveLength, imgSize);
-  } else if (e.key === "ArrowUp") {
-    moveVertical(runningDuck, "up", moveLength, imgSize);
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    moveHorizontal(runningDuck, e.key, moveLength, imgSize);
+  } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+    moveVertical(runningDuck, e.key, moveLength, imgSize);
   }
   if (isTouching(runningDuck, duckToCatch)) {
     setRandomLocation(duckToCatch, moveLength);
@@ -46,25 +42,25 @@ const updateScore = () => {
   score.innerText = Number(score.innerText) + 1;
 };
 
-const moveVertical = (element, direction, length, imgSize) => {
+const moveVertical = (element, key, length, imgSize) => {
   const currentTop = extractPosition(element.style.top);
-  if (direction === "down" && currentTop < window.innerHeight - imgSize) {
+  if (key === "ArrowDown" && currentTop < window.innerHeight - imgSize) {
     element.style.top = `${currentTop + length}px`;
   }
 
-  if (direction === "up" && currentTop >= 0) {
+  if (key === "ArrowUp" && currentTop >= 0) {
     element.style.top = `${currentTop - length}px`;
   }
 };
 
-const moveHorizontal = (element, direction, length, imgSize) => {
+const moveHorizontal = (element, key, length, imgSize) => {
   const currentLeft = extractPosition(element.style.left);
-  if (direction === "left" && currentLeft >= 0) {
+  if (key === "ArrowLeft" && currentLeft >= 0) {
     element.style.left = `${currentLeft - length}px`;
     element.style.transform = "scale(-1,1)";
   }
 
-  if (direction === "right" && currentLeft < window.innerWidth - imgSize) {
+  if (key === "ArrowRight" && currentLeft < window.innerWidth - imgSize) {
     element.style.left = `${currentLeft + length}px`;
     element.style.transform = "scale(1,1)";
   }
