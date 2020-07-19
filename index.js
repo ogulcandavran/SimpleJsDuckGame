@@ -1,8 +1,7 @@
 const duckToCatch = document.querySelector(".duck_to_catch");
 const littleDuckSize = document.querySelector("#little_duck");
 const runningDuck = document.querySelector(".running_duck");
-const score = document.querySelector(".score");
-let initialScore = 0;
+const score = document.querySelector("#score");
 
 const setRandomLocation = (element, imgSize) => {
   const randomLeft = Math.floor(Math.random() * window.innerWidth);
@@ -26,21 +25,26 @@ const isTouching = (a, b) => {
 };
 
 window.addEventListener("keydown", function (e) {
+  const moveLength = 30;
+  const imgSize = 120;
   if (e.key === "ArrowRight") {
-    moveHorizontal(runningDuck, "right", 30, 120);
+    moveHorizontal(runningDuck, "right", moveLength, imgSize);
   } else if (e.key === "ArrowLeft") {
-    moveHorizontal(runningDuck, "left", 30, 120);
+    moveHorizontal(runningDuck, "left", moveLength, imgSize);
   } else if (e.key === "ArrowDown") {
-    moveVertical(runningDuck, "down", 30, 120);
+    moveVertical(runningDuck, "down", moveLength, imgSize);
   } else if (e.key === "ArrowUp") {
-    moveVertical(runningDuck, "up", 30, 120);
+    moveVertical(runningDuck, "up", moveLength, imgSize);
   }
   if (isTouching(runningDuck, duckToCatch)) {
-    initialScore++;
-    setRandomLocation(duckToCatch, 30);
-    score.innerText = `Score:${initialScore}`;
+    setRandomLocation(duckToCatch, moveLength);
+    updateScore();
   }
 });
+
+const updateScore = () => {
+  score.innerText = Number(score.innerText) + 1;
+};
 
 const moveVertical = (element, direction, length, imgSize) => {
   const currentTop = extractPosition(element.style.top);
